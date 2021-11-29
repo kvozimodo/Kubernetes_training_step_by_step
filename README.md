@@ -50,7 +50,7 @@ EOF
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 # Step 8 enable kubelet.service
 sudo systemctl enable --now kubelet
-#Step 9 start Docker
+# Step 9 start Docker
 sudo systemctl start docker.service
 # Step 10 start kubelet
 sudo systemctl start kubelet
