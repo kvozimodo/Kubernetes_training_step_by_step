@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  strategy:
+     rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 8888
+        volumeMounts:
+        - name: hostpath-privileged
+          mountPath: /tmp
+        - name: config
+          mountPath: /etc/nginx/conf.d
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      volumes:
+       - name: config 
+         configMap:
+           name: nginx
+       - name: hostpath-privileged
+         persistentVolumeClaim:
+           claimName: task-pvc-volume

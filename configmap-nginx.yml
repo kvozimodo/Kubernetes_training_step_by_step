@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx
+data:
+  nginx.conf: |
+    server {
+          listen       8888;
+          server_name  _;
+          root /tmp;
+          location /tmp {
+              index  index.html;
+          }
+      }
